@@ -30,24 +30,40 @@ $grammar = new PhpProcGrammar\Grammar();
 Add all necessary rules to our grammar.
  
 ``` php
-$grammar->rule('robot')
-    ->produces('name', 'type', 'height');
-
 $grammar->rule('name')
     ->pushNode('name')
     ->produces(function (Context $context) {
-        $context->setCurrent(bin2hex(random_bytes(2)));
+        $name = strtoupper(bin2hex(random_bytes(2)))
+              . '-'
+              . bin2hex(random_bytes(1));
+
+        $context->setCurrent($name);
     });
 
 $grammar->rule('type')
     ->pushNode('type')
-    ->produces(function (Context $context) {
+    ->produces('typeHuman')->weight(1.0)
+    ->produces('typeBox')->weight(0.5)
+    ->produces('typeSpider')->weight(0.1);
 
-    });
+$grammar->rule('typeHumanoid')
+    ->produces('This robot looks like a human.');
+$grammar->rule('typeBox')
+    ->produces('This robot looks like a box.');
+$grammar->rule('typeSpider')
+    ->produces('This robot looks like a spider.');
 
 $grammar->rule('mass')
     ->pushNode('mass')
-    ->produces(mt_rand(1, 250));
+    ->produces(function (Context $context) {
+        $context->push('unit');
+        $context->setCurrent('kg');
+        $context->pop();
+
+        $context->push('value');
+        $context->setCurrent(10 + mt_rand(1, 120));
+        $context->pop();
+    });
 ```
 
 Fire the "root" rule.
