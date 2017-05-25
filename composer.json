@@ -1,0 +1,26 @@
+{
+    "name": "mhilker/php-proc-grammar",
+    "type": "library",
+    "description": "Rule based context sensitive grammar for procedural generation.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maik Hilker",
+            "email": "maikhilker89@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpProcGrammar\\": "./src/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}
